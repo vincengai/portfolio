@@ -3418,6 +3418,7 @@ input, select, textarea {
 						height: inherit;
 						line-height: inherit;
 						outline: 0;
+						font-size: 20px;
 					}
 
 						#header nav ul li a.button, #header nav ul li span.button {
