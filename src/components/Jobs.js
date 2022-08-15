@@ -8,10 +8,8 @@ import axios from 'axios';
 const Jobs = () => {
   const [value, setValue] = useState(0);
   const [jobsData, setjobsData] = useState({});
-  // const {company, date, desc, position, url} = jobsData?.data[0]?.attributes;
-  const [position, setPosition] = useState("");
   const [jobData, setJobData] = useState({});
-
+  
   const qs = require('qs');
   const query = qs.stringify({
     populate: '*', 
@@ -21,17 +19,20 @@ const Jobs = () => {
 
   useEffect( () => {
     fetchData();
-  }, [])
+  }, [value])
 
+
+  const handleClick = (i) => {
+    setValue(i)
+  };
 
   const fetchData = async () => {
     axios.get(`http://localhost:1337/api/jobs?${query}`).then(response => {
       setjobsData(response?.data); 
       setJobData(response.data.data[value].attributes)
     })
-
   };
-  console.log(jobData)
+
   return (
     <section className="section jobs">
       <Title title="experience" />
@@ -39,7 +40,7 @@ const Jobs = () => {
       <div className="btn-container">
         {jobsData?.data?.map( (job, index) => {
           return (
-            <button key={index} onClick={() => setValue(index)} className={`job-btn ${index === value && 'active-btn'}`}>{job.attributes.company}</button>
+            <button key={index} onClick={(e) => handleClick(index)} className={`job-btn ${index === value && 'active-btn'}`}>{job.attributes.company}</button>
           )
         })}
       </div>
@@ -47,8 +48,20 @@ const Jobs = () => {
         <h3>{jobData.position}</h3>
         <h4>{jobData.company}</h4>
         <p className="job-date">{jobData.date}</p>
+        {jobData?.desc?.map( (item, i) => {
+          return (
+            <div key={i} className="job-desc">
+              <FaAngleDoubleRight className="job-icon"></FaAngleDoubleRight>
+              <p>{item.name}</p>
+            </div>
+          )
+        })}
       </article>
       </div>
+      
+      <Link to="/about" className="btn center-btn">
+        more info
+      </Link>
     </section>
   )
 }

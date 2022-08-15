@@ -7,7 +7,6 @@ import Projects from "../components/Projects"
 const ProjectsPage = () => {
 
   const res =  fetch("/projects/")
-  console.log(res, 'response asdsadas')
   return (
    <div>
      <h2>projects page</h2>
